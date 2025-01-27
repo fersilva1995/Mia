@@ -27,12 +27,16 @@ message SvmData {
 	string id = 1;
 	string name = 2;
 	repeated string users = 3;
+	bool create_negative = 4;
+	bool create_unknown = 5;
 }
 
 message SetSvmRequest {
 	string id = 1;
 	string name = 2;
 	repeated string users = 3;
+	bool create_negative = 4;
+	bool create_unknown = 5;
 }
 
 message GetSvmsResponse {

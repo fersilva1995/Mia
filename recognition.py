@@ -34,18 +34,26 @@ class RecognitionController():
             rgb_img = cv2.cvtColor(face_arr, cv2.IMREAD_COLOR)
             feature = embbeder.get_embedding(rgb_img)
 
-            face_name = self.detectors['main'].predict(feature)[0]
-            if(face_name in self.user_controller.users):
-                svm = self.svm_controller.read(face_name)
-                result = self.detectors[svm.id].predict(feature)
-                if(result[0] != 'negative'):
-                    _, byte_array = cv2.imencode('.jpg', face)
+            user_id = self.detectors['main'].predict(feature)[0]
+            if(user_id in self.user_controller.users):
+                selected_user = self.user_controller.users[user_id]
+                svm = self.svm_controller.read(user_id)
+                result = self.detectors[svm.id].predict(feature)[0]
+                _, byte_array = cv2.imencode('.jpg', face)
+                response_data = {}
+                if(result == user_id):
                     response_data = {
-                        'user_id': face_name,
-                        'name': self.user_controller.users[face_name].name,
+                        'user_id': user_id,
+                        'name': self.user_controller.users[user_id].name,
                         'face': byte_array
                     }
-                    response.append(response_data)
+                else:
+                    response_data = {
+                        'user_id': user_id,
+                        'name': self.user_controller.users[user_id].name + '-Negative',
+                        'face': byte_array
+                    }
+                response.append(response_data)
 
 
         return response

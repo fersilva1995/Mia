@@ -23,7 +23,7 @@ class DetectImage:
         weights = base_path + "\\best.pt"
         self.imgsz = img_size
         self.conf_thres = 0.6
-        self.iou_thres = 0.8
+        self.iou_thres = 0.6
         set_logging() #enable console output
         self.device = select_device('') #select device cpu vs gpu
         self.model = attempt_load(weights, map_location=self.device)

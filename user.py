@@ -38,7 +38,11 @@ class User:
             self.face_features = data['face_features']
         else:
             self.name = name
-            self.id = str(uuid.uuid4())
+            if(name != 'unknown'):
+                self.id = str(uuid.uuid4())
+            else:
+                self.id = name
+            
             self.images = {}
             self.audios = {}
             self.faces = {}
@@ -67,6 +71,9 @@ class UserController:
             else:
                 user = User(False, folder)
                 self.users[user.id] = user
+
+        if not 'unknown' in folders:
+            unknown = self.create_user('unknown')
 
 
 
@@ -169,12 +176,15 @@ class UserController:
             return
         
         main_image = cv2.imdecode(np.frombuffer(image.value, np.uint8), cv2.IMREAD_COLOR)
-        face = self.detector.get_face(main_image)[0]
-        face = cv2.resize(face, (160,160))
-        _, byte_array = cv2.imencode('.jpg', face)
-        image_id = self.generate_random_id()
+        faces = self.detector.get_face(main_image)
 
-        user.faces[image_id] = Data(image_id, name, byte_array, reference)
+        for face in faces:
+            face = cv2.resize(face, (160,160))
+            _, byte_array = cv2.imencode('.jpg', face)
+            image_id = self.generate_random_id()
+            user.faces[image_id] = Data(image_id, name, byte_array, reference)
+
+       
         self.save(user_id)
 
     def set_feature(self, user_id, name, reference):

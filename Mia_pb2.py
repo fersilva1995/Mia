@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\tMia.proto\x12\x07MiaGRPC\"$\n\x08UserData\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\"*\n\x0eSetUserRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\"3\n\x10GetUsersResponse\x12\x1f\n\x04\x64\x61ta\x18\x01 \x03(\x0b\x32\x11.MiaGRPC.UserData\"2\n\x07SvmData\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\r\n\x05users\x18\x03 \x03(\t\"8\n\rSetSvmRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\r\n\x05users\x18\x03 \x03(\t\"1\n\x0fGetSvmsResponse\x12\x1e\n\x04\x64\x61ta\x18\x01 \x03(\x0b\x32\x10.MiaGRPC.SvmData\":\n\tImageData\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0bimage_bytes\x18\x03 \x01(\x0c\";\n\x0cIndexRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0e\n\x06source\x18\x02 \x01(\t\x12\n\n\x02id\x18\x03 \x01(\t\";\n\x0b\x44\x61taRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0e\n\x06source\x18\x02 \x01(\t\x12\x0b\n\x03ids\x18\x03 \x03(\t\"A\n\x11RemoveDataRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0e\n\x06source\x18\x02 \x01(\t\x12\x0b\n\x03ids\x18\x03 \x03(\t\"b\n\x0eSetDataRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0e\n\x06source\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x11\n\treference\x18\x04 \x01(\t\x12\x13\n\x0bimage_bytes\x18\x05 \x01(\x0c\"1\n\rIndexResponse\x12 \n\x04\x64\x61ta\x18\x01 \x03(\x0b\x32\x12.MiaGRPC.ImageData\"2\n\x0c\x44\x61taResponse\x12\"\n\x06images\x18\x01 \x03(\x0b\x32\x12.MiaGRPC.ImageData\"\x1f\n\x0bMiaResponse\x12\x10\n\x08response\x18\x01 \x01(\t\"#\n\x12RecognitionRequest\x12\r\n\x05image\x18\x01 \x01(\x0c\"C\n\x13RecognitionResponse\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\r\n\x05image\x18\x03 \x01(\x0c\x32\x84\x07\n\nMiaService\x12@\n\nCreateUser\x12\x17.MiaGRPC.SetUserRequest\x1a\x19.MiaGRPC.GetUsersResponse\x12?\n\tReadUsers\x12\x17.MiaGRPC.SetUserRequest\x1a\x19.MiaGRPC.GetUsersResponse\x12@\n\nUpdateUser\x12\x17.MiaGRPC.SetUserRequest\x1a\x19.MiaGRPC.GetUsersResponse\x12@\n\nDeleteUser\x12\x17.MiaGRPC.SetUserRequest\x1a\x19.MiaGRPC.GetUsersResponse\x12=\n\tCreateSvm\x12\x16.MiaGRPC.SetSvmRequest\x1a\x18.MiaGRPC.GetSvmsResponse\x12<\n\x08ReadSvms\x12\x16.MiaGRPC.SetSvmRequest\x1a\x18.MiaGRPC.GetSvmsResponse\x12=\n\tUpdateSvm\x12\x16.MiaGRPC.SetSvmRequest\x1a\x18.MiaGRPC.GetSvmsResponse\x12=\n\tDeleteSvm\x12\x16.MiaGRPC.SetSvmRequest\x1a\x18.MiaGRPC.GetSvmsResponse\x12\x38\n\x08TrainSvm\x12\x16.MiaGRPC.SetSvmRequest\x1a\x14.MiaGRPC.MiaResponse\x12:\n\tReadIndex\x12\x15.MiaGRPC.IndexRequest\x1a\x16.MiaGRPC.IndexResponse\x12\x36\n\x08ReadData\x12\x14.MiaGRPC.DataRequest\x1a\x12.MiaGRPC.ImageData0\x01\x12:\n\x07SetData\x12\x17.MiaGRPC.SetDataRequest\x1a\x14.MiaGRPC.MiaResponse(\x01\x12>\n\nRemoveData\x12\x1a.MiaGRPC.RemoveDataRequest\x1a\x14.MiaGRPC.MiaResponse\x12J\n\tRecognize\x12\x1b.MiaGRPC.RecognitionRequest\x1a\x1c.MiaGRPC.RecognitionResponse(\x01\x30\x01\x42\n\xaa\x02\x07MiaGRPCb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\tMia.proto\x12\x07MiaGRPC\"$\n\x08UserData\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\"*\n\x0eSetUserRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\"3\n\x10GetUsersResponse\x12\x1f\n\x04\x64\x61ta\x18\x01 \x03(\x0b\x32\x11.MiaGRPC.UserData\"c\n\x07SvmData\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\r\n\x05users\x18\x03 \x03(\t\x12\x17\n\x0f\x63reate_negative\x18\x04 \x01(\x08\x12\x16\n\x0e\x63reate_unknown\x18\x05 \x01(\x08\"i\n\rSetSvmRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\r\n\x05users\x18\x03 \x03(\t\x12\x17\n\x0f\x63reate_negative\x18\x04 \x01(\x08\x12\x16\n\x0e\x63reate_unknown\x18\x05 \x01(\x08\"1\n\x0fGetSvmsResponse\x12\x1e\n\x04\x64\x61ta\x18\x01 \x03(\x0b\x32\x10.MiaGRPC.SvmData\":\n\tImageData\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0bimage_bytes\x18\x03 \x01(\x0c\";\n\x0cIndexRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0e\n\x06source\x18\x02 \x01(\t\x12\n\n\x02id\x18\x03 \x01(\t\";\n\x0b\x44\x61taRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0e\n\x06source\x18\x02 \x01(\t\x12\x0b\n\x03ids\x18\x03 \x03(\t\"A\n\x11RemoveDataRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0e\n\x06source\x18\x02 \x01(\t\x12\x0b\n\x03ids\x18\x03 \x03(\t\"b\n\x0eSetDataRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0e\n\x06source\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x11\n\treference\x18\x04 \x01(\t\x12\x13\n\x0bimage_bytes\x18\x05 \x01(\x0c\"1\n\rIndexResponse\x12 \n\x04\x64\x61ta\x18\x01 \x03(\x0b\x32\x12.MiaGRPC.ImageData\"2\n\x0c\x44\x61taResponse\x12\"\n\x06images\x18\x01 \x03(\x0b\x32\x12.MiaGRPC.ImageData\"\x1f\n\x0bMiaResponse\x12\x10\n\x08response\x18\x01 \x01(\t\"#\n\x12RecognitionRequest\x12\r\n\x05image\x18\x01 \x01(\x0c\"C\n\x13RecognitionResponse\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\r\n\x05image\x18\x03 \x01(\x0c\x32\x84\x07\n\nMiaService\x12@\n\nCreateUser\x12\x17.MiaGRPC.SetUserRequest\x1a\x19.MiaGRPC.GetUsersResponse\x12?\n\tReadUsers\x12\x17.MiaGRPC.SetUserRequest\x1a\x19.MiaGRPC.GetUsersResponse\x12@\n\nUpdateUser\x12\x17.MiaGRPC.SetUserRequest\x1a\x19.MiaGRPC.GetUsersResponse\x12@\n\nDeleteUser\x12\x17.MiaGRPC.SetUserRequest\x1a\x19.MiaGRPC.GetUsersResponse\x12=\n\tCreateSvm\x12\x16.MiaGRPC.SetSvmRequest\x1a\x18.MiaGRPC.GetSvmsResponse\x12<\n\x08ReadSvms\x12\x16.MiaGRPC.SetSvmRequest\x1a\x18.MiaGRPC.GetSvmsResponse\x12=\n\tUpdateSvm\x12\x16.MiaGRPC.SetSvmRequest\x1a\x18.MiaGRPC.GetSvmsResponse\x12=\n\tDeleteSvm\x12\x16.MiaGRPC.SetSvmRequest\x1a\x18.MiaGRPC.GetSvmsResponse\x12\x38\n\x08TrainSvm\x12\x16.MiaGRPC.SetSvmRequest\x1a\x14.MiaGRPC.MiaResponse\x12:\n\tReadIndex\x12\x15.MiaGRPC.IndexRequest\x1a\x16.MiaGRPC.IndexResponse\x12\x36\n\x08ReadData\x12\x14.MiaGRPC.DataRequest\x1a\x12.MiaGRPC.ImageData0\x01\x12:\n\x07SetData\x12\x17.MiaGRPC.SetDataRequest\x1a\x14.MiaGRPC.MiaResponse(\x01\x12>\n\nRemoveData\x12\x1a.MiaGRPC.RemoveDataRequest\x1a\x14.MiaGRPC.MiaResponse\x12J\n\tRecognize\x12\x1b.MiaGRPC.RecognitionRequest\x1a\x1c.MiaGRPC.RecognitionResponse(\x01\x30\x01\x42\n\xaa\x02\x07MiaGRPCb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -39,31 +39,31 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_GETUSERSRESPONSE']._serialized_start=104
   _globals['_GETUSERSRESPONSE']._serialized_end=155
   _globals['_SVMDATA']._serialized_start=157
-  _globals['_SVMDATA']._serialized_end=207
-  _globals['_SETSVMREQUEST']._serialized_start=209
-  _globals['_SETSVMREQUEST']._serialized_end=265
-  _globals['_GETSVMSRESPONSE']._serialized_start=267
-  _globals['_GETSVMSRESPONSE']._serialized_end=316
-  _globals['_IMAGEDATA']._serialized_start=318
-  _globals['_IMAGEDATA']._serialized_end=376
-  _globals['_INDEXREQUEST']._serialized_start=378
-  _globals['_INDEXREQUEST']._serialized_end=437
-  _globals['_DATAREQUEST']._serialized_start=439
-  _globals['_DATAREQUEST']._serialized_end=498
-  _globals['_REMOVEDATAREQUEST']._serialized_start=500
-  _globals['_REMOVEDATAREQUEST']._serialized_end=565
-  _globals['_SETDATAREQUEST']._serialized_start=567
-  _globals['_SETDATAREQUEST']._serialized_end=665
-  _globals['_INDEXRESPONSE']._serialized_start=667
-  _globals['_INDEXRESPONSE']._serialized_end=716
-  _globals['_DATARESPONSE']._serialized_start=718
-  _globals['_DATARESPONSE']._serialized_end=768
-  _globals['_MIARESPONSE']._serialized_start=770
-  _globals['_MIARESPONSE']._serialized_end=801
-  _globals['_RECOGNITIONREQUEST']._serialized_start=803
-  _globals['_RECOGNITIONREQUEST']._serialized_end=838
-  _globals['_RECOGNITIONRESPONSE']._serialized_start=840
-  _globals['_RECOGNITIONRESPONSE']._serialized_end=907
-  _globals['_MIASERVICE']._serialized_start=910
-  _globals['_MIASERVICE']._serialized_end=1810
+  _globals['_SVMDATA']._serialized_end=256
+  _globals['_SETSVMREQUEST']._serialized_start=258
+  _globals['_SETSVMREQUEST']._serialized_end=363
+  _globals['_GETSVMSRESPONSE']._serialized_start=365
+  _globals['_GETSVMSRESPONSE']._serialized_end=414
+  _globals['_IMAGEDATA']._serialized_start=416
+  _globals['_IMAGEDATA']._serialized_end=474
+  _globals['_INDEXREQUEST']._serialized_start=476
+  _globals['_INDEXREQUEST']._serialized_end=535
+  _globals['_DATAREQUEST']._serialized_start=537
+  _globals['_DATAREQUEST']._serialized_end=596
+  _globals['_REMOVEDATAREQUEST']._serialized_start=598
+  _globals['_REMOVEDATAREQUEST']._serialized_end=663
+  _globals['_SETDATAREQUEST']._serialized_start=665
+  _globals['_SETDATAREQUEST']._serialized_end=763
+  _globals['_INDEXRESPONSE']._serialized_start=765
+  _globals['_INDEXRESPONSE']._serialized_end=814
+  _globals['_DATARESPONSE']._serialized_start=816
+  _globals['_DATARESPONSE']._serialized_end=866
+  _globals['_MIARESPONSE']._serialized_start=868
+  _globals['_MIARESPONSE']._serialized_end=899
+  _globals['_RECOGNITIONREQUEST']._serialized_start=901
+  _globals['_RECOGNITIONREQUEST']._serialized_end=936
+  _globals['_RECOGNITIONRESPONSE']._serialized_start=938
+  _globals['_RECOGNITIONRESPONSE']._serialized_end=1005
+  _globals['_MIASERVICE']._serialized_start=1008
+  _globals['_MIASERVICE']._serialized_end=1908
 # @@protoc_insertion_point(module_scope)

@@ -14,22 +14,30 @@ lock = threading.Lock()
 
 class Svm:
 
-    def __init__(self, data, name='', users=[], create_negative=True, user_id=0):
+    def __init__(self, data, name='', users=[], create_negative=True, user_id=0, create_unknown=True):
         if(data):
             self.name = data['name']
             self.id = data['id']
             self.users = data['users']
             self.create_negative = data['create_negative']
+
+            if(create_unknown in data):
+                self.create_unknown = data['create_unknown']
+            else:
+                self.create_unknown = False
+
             self.user_id = data['user_id']
+
         else:
-            if(name != 'main'):
+            if(name != 'main' and name != 'unknown'):
                 self.id = str(uuid.uuid4())
             else:
-                self.id = 'main'
+                self.id = name
             self.name = name        
             self.users = list(users)
             self.create_negative = create_negative
             self.user_id = user_id
+            self.create_unknown = create_unknown
 
 
         
@@ -56,11 +64,18 @@ class SvmController:
                 self.svms[svm.id] = user
 
         if not 'main' in folders:
-            main = self.create('main', user_controller.users)
+            main = self.create('main', user_controller.users, create_negative=False)
 
         main_data_path = base_dir.joinpath('main').joinpath('main.pkl')
         if(not os.path.exists(main_data_path)):
            self.train('main')
+
+        if not 'unknown' in folders:
+            unknown = self.create('unknown', ['unknown'], user_id = 'unknown')
+
+        unknown_data_path = base_dir.joinpath('unknown').joinpath('unknown.pkl')
+        if(not os.path.exists(unknown_data_path)):
+           self.train('unknown')
 
 
     def save(self, id):
@@ -69,8 +84,8 @@ class SvmController:
         with open(file, "wb") as f:
             pickle.dump(self.svms[id].__dict__, f)
 
-    def create(self, name, users, create_negative=True, user_id=0):
-        svm = Svm(False, name, users, create_negative, user_id)
+    def create(self, name, users, create_negative=True, user_id=0, create_unknown=True):
+        svm = Svm(False, name, users, create_negative, user_id, create_unknown)
         path = Path()
         dir_path = path.absolute().joinpath('svms').joinpath(svm.id)
         file_path = dir_path.joinpath('data.pickle')
@@ -86,7 +101,7 @@ class SvmController:
 
     def read(self, user_id):
         for svm in self.svms.values():
-            if(svm.user_id == user_id):
+            if(svm.user_id is not None and svm.user_id == user_id):
                 return svm
             
     def read_model(self, svm_id):
@@ -102,12 +117,18 @@ class SvmController:
 
 
 
-    def update(self, id, name, users, create_negative=True):
+    def update(self, id, name, users, create_negative=True, create_unknown=False):
         if(id in self.svms):
             svm = self.svms[id]
             svm.name = name
             svm.create_negative = create_negative
             svm.users = list(users)
+            if(svm.create_unknown != create_unknown):
+                svm.create_unknown = create_unknown
+                
+            self.train(svm.id)                    
+
+            
             self.save(id)
 
     def delete(self, id):
@@ -146,10 +167,20 @@ class SvmController:
         if(svm.create_negative):
             for user_id in user_controller.users:
                 if(user_id not in svm.users):
+                    if(user_id == "unknown" and svm.create_unknown == True):
+                        continue
+
                     user = user_controller.users[user_id]
                     for face in user.face_features.values():
                         faces.append(np.array(face.value[0], dtype=float)) 
                         labels.append('negative')
+
+
+        if(svm.create_unknown):
+            user = user_controller.users['unknown']
+            for face in user.face_features.values():
+                faces.append(np.array(face.value[0], dtype=float)) 
+                labels.append('unknown')
             
         if(len(list(set(labels))) > 1):
             X_train, X_test, Y_train, Y_test = train_test_split(faces, labels, shuffle=True, random_state=17)

@@ -71,17 +71,22 @@ class MiaService(Mia_pb2_grpc.MiaService):
     #region Svm
 
     def ReadSvms(self, request, context):
-        data = [ Mia_pb2.SvmData(name= svm.name, id= svm.id, users= svm.users) for svm in svm_controller.svms.values()]
+        data = [ Mia_pb2.SvmData(name= svm.name, 
+                                id= svm.id,
+                                users= svm.users, 
+                                create_negative = svm.create_negative, 
+                                create_unknown = svm.create_unknown) 
+                                for svm in svm_controller.svms.values()]
         response = Mia_pb2.GetSvmsResponse(data= data)
         return response
     
     def CreateSvm(self, request, context):
-        svm_controller.create(request.name, request.users)
+        svm_controller.create(request.name, request.users, request.create_negative, request.create_unknown)
         response = Mia_pb2.GetSvmsResponse()
         return response
     
     def UpdateSvm(self, request, context):
-        svm_controller.update(request.id, request.name, request.users)
+        svm_controller.update(request.id, request.name, request.users, request.create_negative, request.create_unknown)
         response = Mia_pb2.GetSvmsResponse()
         return response
 
@@ -172,6 +177,10 @@ class MiaService(Mia_pb2_grpc.MiaService):
             svm = svm_controller.read(user_id)
             training = TrainThread(svm.id)
             training.start()
+
+            if(user_id != 'unknown'):
+                training = TrainThread('unknown')
+                training.start()
         
         return Mia_pb2.MiaResponse(response=response)
 
@@ -188,6 +197,10 @@ class MiaService(Mia_pb2_grpc.MiaService):
                 training = TrainThread(svm.id)
                 training.start()
 
+                if(user_id != 'unknown'):
+                    training = TrainThread('unknown')
+                    training.start()
+
 
             return Mia_pb2.MiaResponse(response='success')
         except Exception as e:
@@ -196,7 +209,6 @@ class MiaService(Mia_pb2_grpc.MiaService):
 
     #endregion
 
-    
     def Recognize(self, request_iterator, context):
         for request in request_iterator:
             image_bytes = request.image
