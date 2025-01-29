@@ -39,6 +39,8 @@ class RecognitionController():
                 selected_user = self.user_controller.users[user_id]
                 svm = self.svm_controller.read(user_id)
                 result = self.detectors[svm.id].predict(feature)[0]
+                score = self.detectors[svm.id].predict_proba(feature)[0]
+                print("Probability", score[0])
                 _, byte_array = cv2.imencode('.jpg', face)
                 response_data = {}
                 if(result == user_id):
@@ -53,6 +55,41 @@ class RecognitionController():
                         'name': self.user_controller.users[user_id].name + '-Negative',
                         'face': byte_array
                     }
+                response.append(response_data)
+
+
+        return response
+    
+    def recongnize_single(self, image, detector_id, threshold=0):
+        if(detector_id not in self.detectors):
+            return
+        
+        response = []
+
+        faces = self.detector.get_face(image)
+        for face in faces:
+            face_arr = cv2.resize(face, (160,160))
+            rgb_img = cv2.cvtColor(face_arr, cv2.IMREAD_COLOR)
+            feature = embbeder.get_embedding(rgb_img)
+
+            user_id = self.detectors[detector_id].predict(feature)[0]
+            score = self.detectors[detector_id].predict_proba(feature)[0]
+            print("Probability", score[0])
+            #_, byte_array = cv2.imencode('.jpg', face)
+            
+            if(user_id in self.user_controller.users and user_id != 'unknown' and score[0] > (threshold/100) ):
+                response_data = {
+                    'user_id': user_id,
+                    'name': self.user_controller.users[user_id].name,
+                    'face': []
+                }
+                response.append(response_data)
+            else:
+                response_data = {
+                    'user_id': 'unknown',
+                    'name': 'unknown',
+                    'face': []
+                }
                 response.append(response_data)
 
 

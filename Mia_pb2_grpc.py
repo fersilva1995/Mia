@@ -104,6 +104,11 @@ class MiaServiceStub(object):
                 request_serializer=Mia__pb2.RecognitionRequest.SerializeToString,
                 response_deserializer=Mia__pb2.RecognitionResponse.FromString,
                 _registered_method=True)
+        self.RecognizeSingle = channel.stream_stream(
+                '/MiaGRPC.MiaService/RecognizeSingle',
+                request_serializer=Mia__pb2.RecognizeSingleRequest.SerializeToString,
+                response_deserializer=Mia__pb2.RecognitionResponse.FromString,
+                _registered_method=True)
 
 
 class MiaServiceServicer(object):
@@ -201,6 +206,12 @@ class MiaServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def RecognizeSingle(self, request_iterator, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_MiaServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -272,6 +283,11 @@ def add_MiaServiceServicer_to_server(servicer, server):
             'Recognize': grpc.stream_stream_rpc_method_handler(
                     servicer.Recognize,
                     request_deserializer=Mia__pb2.RecognitionRequest.FromString,
+                    response_serializer=Mia__pb2.RecognitionResponse.SerializeToString,
+            ),
+            'RecognizeSingle': grpc.stream_stream_rpc_method_handler(
+                    servicer.RecognizeSingle,
+                    request_deserializer=Mia__pb2.RecognizeSingleRequest.FromString,
                     response_serializer=Mia__pb2.RecognitionResponse.SerializeToString,
             ),
     }
@@ -652,6 +668,33 @@ class MiaService(object):
             target,
             '/MiaGRPC.MiaService/Recognize',
             Mia__pb2.RecognitionRequest.SerializeToString,
+            Mia__pb2.RecognitionResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def RecognizeSingle(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_stream(
+            request_iterator,
+            target,
+            '/MiaGRPC.MiaService/RecognizeSingle',
+            Mia__pb2.RecognizeSingleRequest.SerializeToString,
             Mia__pb2.RecognitionResponse.FromString,
             options,
             channel_credentials,

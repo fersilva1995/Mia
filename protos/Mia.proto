@@ -93,12 +93,22 @@ message MiaResponse {
 
 message RecognitionRequest {
 	bytes image = 1;
+
 }
 
 message RecognitionResponse {
 	string user_id = 1;
 	string name = 2;
 	bytes image = 3;
+	string image_name = 4;
+
+}
+
+message RecognizeSingleRequest {
+	bytes image = 1;
+	string svm_id = 2;
+	string image_name = 3;
+	double threshold = 4;
 }
 
 
@@ -141,6 +151,8 @@ service MiaService {
 /////////////////////////////////RECOGNITION///////////////////////////////////////////////
 
 	rpc Recognize(stream RecognitionRequest) returns (stream RecognitionResponse);
+
+	rpc RecognizeSingle(stream RecognizeSingleRequest) returns (stream RecognitionResponse);
 
 }
 

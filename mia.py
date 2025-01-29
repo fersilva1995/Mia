@@ -14,7 +14,7 @@ user_controller = UserController()
 svm_controller = SvmController(user_controller)
 rec_controller = RecognitionController(user_controller, svm_controller)
 
-delay = 0.3
+delay = 1
 
 class TrainThread(threading.Thread):
     def __init__(self, user_id='main'):
@@ -208,6 +208,28 @@ class MiaService(Mia_pb2_grpc.MiaService):
 
 
     #endregion
+
+    def RecognizeSingle(self, request_iterator, context):
+        for request in request_iterator:
+            image_bytes = request.image
+            image_name = request.image_name
+            threshold = request.threshold
+            dectector = request.svm_id
+            nparr = np.frombuffer(image_bytes, np.uint8)
+            image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+
+            response = rec_controller.recongnize_single(image, dectector, threshold)
+
+            for message in response:
+                server_message = Mia_pb2.RecognitionResponse (
+                    user_id = message['user_id'], 
+                    name = message['name'],
+                    #image = message['face'].tobytes(),
+                    image_name = image_name,
+                )
+
+                yield server_message
+                time.sleep(delay)
 
     def Recognize(self, request_iterator, context):
         for request in request_iterator:
