@@ -23,6 +23,7 @@ class TrainThread(threading.Thread):
 
     def run(self):
         svm_controller.train(self.user_id)
+        rec_controller.reload()
         
 class MiaService(Mia_pb2_grpc.MiaService):
 
@@ -97,6 +98,7 @@ class MiaService(Mia_pb2_grpc.MiaService):
     
     def TrainSvm(self, request, context):
         response = svm_controller.train(request.id)
+        rec_controller.reload()
         return Mia_pb2.MiaResponse(response=response)
 
     #endregion
@@ -226,6 +228,7 @@ class MiaService(Mia_pb2_grpc.MiaService):
                     name = message['name'],
                     #image = message['face'].tobytes(),
                     image_name = image_name,
+                    score = message['score']
                 )
 
                 yield server_message
@@ -260,6 +263,7 @@ def serve():
     print("Server started on port 50051")
     server.start()
     server.wait_for_termination()
+    
 
 serve()
 

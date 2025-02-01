@@ -22,7 +22,7 @@ class Svm:
             self.users = data['users']
             self.create_negative = data['create_negative']
 
-            if(create_unknown in data):
+            if('create_unknown' in data):
                 self.create_unknown = data['create_unknown']
             else:
                 self.create_unknown = False
@@ -127,7 +127,7 @@ class SvmController:
             if(svm.create_unknown != create_unknown):
                 svm.create_unknown = create_unknown
                 
-            self.train(svm.id)                    
+            #self.train(svm.id)                    
 
             
             self.save(id)
@@ -168,7 +168,7 @@ class SvmController:
         if(svm.create_negative):
             for user_id in user_controller.users:
                 if(user_id not in svm.users):
-                    if(user_id == "unknown" and svm.create_unknown == True):
+                    if(user_id == "unknown"):
                         continue
 
                     user = user_controller.users[user_id]
@@ -184,23 +184,33 @@ class SvmController:
                 labels.append('unknown')
             
         if(len(list(set(labels))) > 1):
+            print(set(labels))
             X_train, X_test, Y_train, Y_test = train_test_split(faces, labels, shuffle=True, random_state=17)
-            param_grid = {
+            '''param_grid = {
+                'C': [0.01, 0.1, 1, 10, 100, 1000],  # Regularization parameter
+                'gamma': ['scale', 'auto',0.0001, 0.001, 0.01, 0.1, 1, 10],  # Kernel coefficient
+                'kernel': ['rbf'],  # Adding poly & sigmoid
+            }'''
+
+            '''param_grid = {
                 'C': [0.01, 0.1, 1, 10, 100, 1000],  # Regularization parameter
                 'gamma': ['scale', 'auto', 0.0001, 0.001, 0.01, 0.1, 1, 10],  # Kernel coefficient
                 'kernel': ['rbf', 'poly', 'sigmoid'],  # Adding poly & sigmoid
                 'degree': [2, 3, 4, 5],  # Only relevant for polynomial kernel
                 'coef0': [0.0, 0.1, 0.5, 1.0, 2.0]  # Used in poly and sigmoid kernels
-            }
-            grid_search = GridSearchCV(SVC(probability=True), param_grid, cv=5, scoring='accuracy', verbose=1, n_jobs=-1)
-            grid_search.fit(X_train, Y_train)
-            print("Best parameters found: ", grid_search.best_params_)
-            model = grid_search.best_estimator_
-            #model = SVC(kernel = 'linear', probability=True)
-            #model.fit(X_train, Y_train)
+            }'''
+
+            #grid_search = GridSearchCV(SVC(probability=True), param_grid, cv=5, scoring='accuracy', verbose=1, n_jobs=-1)
+            #grid_search.fit(X_train, Y_train)
+            #print("Best parameters found: ", grid_search.best_params_)
+            #model = grid_search.best_estimator_
+            
+            
+            model = SVC(kernel = 'linear', probability=True)
+            model.fit(X_train, Y_train)
             ypreds_test = model.predict(X_test)
             ac = accuracy_score(Y_test, ypreds_test)
             print(ac)
-            file = str(path.absolute().joinpath('svms').joinpath(id).joinpath(name + '.pkl'))
+            file = str(path.absolute().joinpath('svms').joinpath(id).joinpath(svm.id + '.pkl'))
             with open(file,'wb') as f:
                 pickle.dump(model,f)

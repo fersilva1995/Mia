@@ -101,6 +101,7 @@ message RecognitionResponse {
 	string name = 2;
 	bytes image = 3;
 	string image_name = 4;
+	double score = 5;
 
 }
 

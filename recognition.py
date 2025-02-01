@@ -17,12 +17,14 @@ class RecognitionController():
         self.reload()
 
     def reload(self):
+        print('reload')
         for svm in self.svm_controller.svms.values():
             self.detectors[svm.id] = self.svm_controller.read_model(svm.id)
 
     
 
     def recongnize(self, image):
+        
         if('main' not in self.detectors):
             return
         
@@ -77,18 +79,20 @@ class RecognitionController():
             print("Probability", score[0])
             #_, byte_array = cv2.imencode('.jpg', face)
             
-            if(user_id in self.user_controller.users and user_id != 'unknown' and score[0] > (threshold/100) ):
+            if(user_id in self.user_controller.users and user_id != 'unknown'):
                 response_data = {
                     'user_id': user_id,
                     'name': self.user_controller.users[user_id].name,
-                    'face': []
+                    'face': [],
+                    'score': score[0],
                 }
                 response.append(response_data)
             else:
                 response_data = {
                     'user_id': 'unknown',
                     'name': 'unknown',
-                    'face': []
+                    'face': [],
+                    'score': score[0],
                 }
                 response.append(response_data)
 
